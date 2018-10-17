@@ -1,0 +1,25 @@
+#!/bin/bash
+
+file=$1
+checkHash=$(checkArg '$2')
+
+fileHash=$(sha256sum file)
+
+echo "The file hash is " + fileHash
+echo "The hash you are checking against it is " + checkHash
+
+if [ fileHash == checkHash ]; then
+echo "Hash is good! Both hashes match, the file is real!"
+else
+echo "Hashes do not match, check your source!"
+fi
+
+function checkArg {
+	fileFormat=(file $1)
+	if [ fileFormat == '*text' ] ; then
+		returnValue=(cat $1)
+		return returnValue
+	else
+		return $1
+	fi
+}
